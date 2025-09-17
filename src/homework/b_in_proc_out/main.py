@@ -12,7 +12,7 @@ def main():
     total = meal_amount + sales_tax + tip_amount
 
     # Display receipt
-    print("\nReceipt")
+    print(f"Receipt")
     print(f"Meal Amount:   {meal_amount:.2f}")
     print(f"Sales Tax:     {sales_tax:.2f}")
     print(f"Tip Amount:    {tip_amount:.2f}")
