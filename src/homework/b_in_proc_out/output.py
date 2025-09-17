@@ -1,12 +1,9 @@
-def multiply_numbers(a, b):
-    """
-    Returns the product of two numbers.
+TAX_RATE = 0.0675 # 6.75% tax rate
 
-    Args:
-        a (int or float): First number.
-        b (int or float): Second number.
+def get_sales_tax_amount(meal_amount):
+    """Calculate the sales tax amount for a given meal amount."""
+    return meal_amount * TAX_RATE
 
-    Returns:
-        int or float: The product of a and b.
-    """
-    return a * b
+def get_tip_amount(meal_amount, tip_rate):
+    """Calculate the tip amount for a given meal amount and tip rate."""
+    return meal_amount * tip_rate
