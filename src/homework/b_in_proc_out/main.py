@@ -1,5 +1,5 @@
 from output import multiply_numbers
-
+# Homework 1: Function to multiply two numbers
 def main():
     a = int(input("Enter the first number: "))
     b = int(input("Enter the second number: "))
