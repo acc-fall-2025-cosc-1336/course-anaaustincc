@@ -21,8 +21,6 @@ def main():
 						num = int(num)
 						result = get_factorial(num)
 						print(f"Factorial of {num} is {result}")
-						# Show float division for demonstration
-						print(f"Factorial divided by {num} (float division): {result / float(num)}")
 						break
 					else:
 						print("Number must be between 1 and 9.")
@@ -42,8 +40,6 @@ def main():
 						num = int(num)
 						result = sum_odd_numbers(num)
 						print(f"Sum of odd numbers up to {num} is {result}")
-						# Show float division for demonstration
-						print(f"Sum divided by {num} (float division): {result / float(num)}")
 						break
 					else:
 						print("Number must be between 1 and 99.")
