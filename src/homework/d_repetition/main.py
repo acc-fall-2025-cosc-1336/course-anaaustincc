@@ -12,27 +12,43 @@ def main():
 			while True:
 				num_str = input("Enter a number (1-9): ")
 				try:
-					num = int(num_str)
+					num = float(num_str) if '.' in num_str else int(num_str)
 					if 1 <= num <= 9:
-						print(f"Factorial of {num} is {get_factorial(num)}")
+						# Factorial only makes sense for integers
+						if isinstance(num, float) and not num.is_integer():
+							print("Please enter a whole number for factorial.")
+							continue
+						num = int(num)
+						result = get_factorial(num)
+						print(f"Factorial of {num} is {result}")
+						# Show float division for demonstration
+						print(f"Factorial divided by {num} (float division): {result / float(num)}")
 						break
 					else:
 						print("Number must be between 1 and 9.")
 				except ValueError:
-					print("Invalid input. Please enter an integer.")
+					print("Invalid input. Please enter a number.")
 
 		elif choice == '2':
 			while True:
 				num_str = input("Enter a number (1-99): ")
 				try:
-					num = int(num_str)
+					num = float(num_str) if '.' in num_str else int(num_str)
 					if 1 <= num <= 99:
-						print(f"Sum of odd numbers up to {num} is {sum_odd_numbers(num)}")
+						# Sum odd numbers only makes sense for integers
+						if isinstance(num, float) and not num.is_integer():
+							print("Please enter a whole number for sum of odd numbers.")
+							continue
+						num = int(num)
+						result = sum_odd_numbers(num)
+						print(f"Sum of odd numbers up to {num} is {result}")
+						# Show float division for demonstration
+						print(f"Sum divided by {num} (float division): {result / float(num)}")
 						break
 					else:
 						print("Number must be between 1 and 99.")
 				except ValueError:
-					print("Invalid input. Please enter an integer.")
+					print("Invalid input. Please enter a number.")
 
 		elif choice == '3':
 			print("Exiting program.")
