@@ -19,50 +19,58 @@ if __package__ is None:
 	if project_root not in sys.path:
 		sys.path.insert(0, project_root)
 
-from src.homework.g_lists_and_tuples.lists import (
-	get_lowest_list_value,
-	get_highest_list_value,
-)
+from src.homework.g_lists_and_tuples.lists import get_p_distance_matrix
 
 
 def print_menu() -> None:
-	print("1-Show the list low /high values")
+	print("1-Get p distance matrix")
 	print("2-Exit")
 
 
-def read_values() -> list:
-	"""Read list values from the user according to the spec.
+def read_sequences() -> list:
+	"""Read a collection of equal-length DNA sequences from the user.
 
-	The function collects values (floats) in a list. It does not ask whether to
-	continue until at least 3 values have been entered. After 3 or more entries
-	the user is prompted: 'Do you want to enter another value? (y/n)'.
+	Prompts for how many sequences to enter, then reads each sequence on its
+	own line. Sequences are returned as a list of lists of single-character
+	strings (e.g. ['A','C','G']). Input validation enforces at least 1
+	sequence and that all sequences have the same length.
 	"""
-	values = []
 	while True:
-		entry = input("Enter a list value: ").strip()
-		# try to parse as float (accept integers too)
+		cnt_raw = input("How many sequences will you enter? ").strip()
 		try:
-			if entry == "":
-				# empty input is considered invalid here; ask again
-				print("Please enter a numeric value.")
+			count = int(cnt_raw)
+			if count <= 0:
+				print("Please enter a positive integer.")
 				continue
-			val = float(entry)
 		except ValueError:
-			print("Invalid number, please try again.")
+			print("Invalid number, please enter an integer.")
 			continue
+		break
 
-		values.append(val)
-
-		# Only ask whether to continue once at least 3 values entered
-		if len(values) >= 3:
-			resp = input("Do you want to enter another value? (y/n): ").strip().lower()
-			if resp.startswith('y'):
+	sequences = []
+	expected_len = None
+	i = 0
+	while i < count:
+		s = input(f"Enter sequence #{i+1}: ").strip()
+		if s == "":
+			print("Empty sequence not allowed; please re-enter.")
+			continue
+		# normalize to upper-case and convert to list of chars
+		seq = [ch for ch in s.strip()]
+		if expected_len is None:
+			expected_len = len(seq)
+			if expected_len == 0:
+				print("Sequence must contain at least one character.")
 				continue
-			else:
-				break
-		# otherwise continue collecting until 3 values have been entered
+		else:
+			if len(seq) != expected_len:
+				print(f"Sequence length must be {expected_len}; you entered length {len(seq)}. Please re-enter.")
+				continue
 
-	return values
+		sequences.append(seq)
+		i += 1
+
+	return sequences
 
 
 def main() -> None:
@@ -71,17 +79,25 @@ def main() -> None:
 		choice = input("Choose an option: ").strip()
 
 		if choice == '1':
-			values = read_values()
-			if not values:
-				print("No values entered.")
+			seqs = read_sequences()
+			if not seqs:
+				print("No sequences entered.")
 			else:
 				try:
-					low = get_lowest_list_value(values)
-					high = get_highest_list_value(values)
-					print(f"Lowest value: {low}")
-					print(f"Highest value: {high}")
+					D = get_p_distance_matrix(seqs)
+					# print matrix with 5 decimal places
+					r = 0
+					while r < len(D):
+						row = D[r]
+						c = 0
+						out_parts = []
+						while c < len(row):
+							out_parts.append("{:.5f}".format(row[c]))
+							c += 1
+						print(" ".join(out_parts))
+						r += 1
 				except ValueError as e:
-					print(f"Error computing min/max: {e}")
+					print(f"Error computing p-distance matrix: {e}")
 
 		elif choice == '2':
 			print("Exiting...")
